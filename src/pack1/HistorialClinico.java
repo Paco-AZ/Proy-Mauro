@@ -110,5 +110,11 @@ public class HistorialClinico
     {
         this.Fecha = Fecha;
     }
+
+    @Override
+    public String toString()
+    {
+        return "HistorialClinico{" + "padecimientoAct=" + padecimientoAct + ", antecedentesPer=" + antecedentesPer + ", medicamento=" + medicamento + ", planTratamiento=" + planTratamiento + ", Fecha=" + Fecha + '}';
+    }
     
 }

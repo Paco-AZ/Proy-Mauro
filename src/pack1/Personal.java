@@ -39,5 +39,11 @@ public class Personal extends Datos
     {
         this.estatus = estatus;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Personal{" + "estatus=" + estatus + '}';
+    }
     
 }

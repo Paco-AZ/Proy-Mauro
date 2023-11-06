@@ -23,5 +23,12 @@ public class Alumnos extends Datos
         this.viveCon = viveCon;
         this.carrera = carrera;
     }
+
+    @Override
+    public String toString()
+    {
+        return super.toString()+ "Alumnos{" + "viveCon=" + viveCon + ", carrera=" + carrera + '}';
+    }
+    
     
 }
