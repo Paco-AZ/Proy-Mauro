@@ -39,6 +39,19 @@ public class Controlador
         return array;
     }
 
+    private static Datos[] reutilizar(Datos array[], Datos d, int pos,JFrame jf)
+    {
+        if (array == null)
+        {
+            Mensajes.error(jf, "Error no hay Nadie registrado");
+
+        } else
+        {
+            array[pos] = d;
+        }
+        return array;
+    }
+
     /**
      *
      * @param array el arreglo del cual se van a comparar las matriculas
@@ -47,40 +60,62 @@ public class Controlador
      * @return retorna true si la matricula es valida, y false si no lo es (ya
      * existe dentro del arreglo)
      */
-    private static boolean validaMatricula(Datos array[], String cve, JFrame jf)
+    private static int validaMatricula(Datos array[], String cve, JFrame jf)
     {
+        int j;
         if (array != null)
         {
             for (int i = 0; i < array.length; i++)
             {
                 if (cve.equals(array[i].getCve()))
                 {
-                    Mensajes.error(jf, "Esa matricula ya existe");
-                    //Ese mensaje puede ser cambiado por una etiqueta que 
-                    //aparezca debajo de la caja de texto
-                    return false;
+
+                    return i;
                 }
             }
         }
-        Mensajes.exito(jf, "Matricula valida");
-        //se puede cambiar por una etiqueta debajo del text field o una 
-        //palomita enfrente que indique que es valido
-        return true;
+
+        return -1;
     }
 
-    public static Datos[] altaAlumno(Datos array[],JFrame jf,String cve,String nom, String pApellido,String sApellido,char sexo,boolean desnut,boolean sobrepeso, boolean alergias,boolean obecidad, boolean diabetes, String otras,int viveCon,int carrera)
+    public static Datos[] altaAlumno(Datos array[], JFrame jf, String cve, String nom, String pApellido, String sApellido, char sexo, boolean desnut, boolean sobrepeso, boolean alergias, boolean obecidad, boolean diabetes, String otras, int viveCon, int carrera)
     {
-        if (validaMatricula(array, cve, jf))
+        if (validaMatricula(array, cve, jf)==-1)
         {
             Datos nvoA = new Alumnos(viveCon, carrera, cve, nom, pApellido, sApellido, sexo, desnut, sobrepeso, alergias, obecidad, diabetes, otras);
-            array=inserta(array, nvoA);
-        } 
+            array = inserta(array, nvoA);
+        }else
+        {
+            Mensajes.error(jf, "Error la matricula Ya EXISTE");
+        }
         return array;
-        
-               
-       
-       
-        
+    }
+
+    public static Datos[] altaPersonal(Datos array[], JFrame jf, char estatus, String cve, String nom, String pApellido, String sApellido, char sexo, boolean desnut, boolean sobrepeso, boolean alergias, boolean obecidad, boolean diabetes, String otras)
+    {
+        if (validaMatricula(array, cve, jf)==-1)
+        {
+            Datos nvoA = new Personal(estatus, cve, nom, pApellido, sApellido, sexo, desnut, sobrepeso, alergias, obecidad, diabetes, otras);
+            array = inserta(array, nvoA);
+        }else
+        {
+            Mensajes.error(jf, "Error la matricula Ya EXISTE");
+        }
+        return array;
+    }
+
+    public static Datos[] modificacionesP(JFrame jf, Datos array[],char estatus, String cve, String nom, String pApellido, String sApellido, char sexo, boolean desnut, boolean sobrepeso, boolean alergias, boolean obecidad, boolean diabetes, String otras)
+    {
+        int pos=validaMatricula(array, cve, jf);
+        if (validaMatricula(array, cve, jf)!=-1)
+        {
+            Datos nvoA = new Personal(estatus, cve, nom, pApellido, sApellido, sexo, desnut, sobrepeso, alergias, obecidad, diabetes, otras);
+            array = reutilizar(array, nvoA, pos, jf);
+        }else
+        {
+            Mensajes.error(jf, "Error la matricula Ya EXISTE");
+        }
+        return array;
     }
 
 }
