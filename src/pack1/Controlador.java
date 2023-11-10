@@ -73,12 +73,15 @@ public class Controlador
                     } else
                     {
                         nvo[i] = new HistorialClinico[matriz[i].length + 1];
+                        System.arraycopy(matriz[i], 0, nvo[i], 0, matriz[i].length);
                         nvo[pos][matriz[i].length] = hc;
                     }
 
                 } else
                 {
+                    
                     nvo[i] = new HistorialClinico[matriz[i].length];
+                    System.arraycopy(matriz[i], 0, nvo[i], 0, matriz[i].length);
                 }
             }
             matriz = nvo;
