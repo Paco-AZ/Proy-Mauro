@@ -27,7 +27,7 @@ public class Alumnos extends Datos
     @Override
     public String toString()
     {
-        return super.toString()+ "Alumnos{" + "viveCon=" + viveCon + ", carrera=" + carrera + '}';
+        return super.toString()+ " viveCon=" + viveCon + ", carrera=" + carrera + '}';
     }
     
     

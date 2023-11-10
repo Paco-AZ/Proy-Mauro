@@ -220,7 +220,7 @@ public class Datos
     @Override
     public String toString()
     {
-        return "Datos{" + "cve=" + cve + ", nom=" + nom + ", primerAp=" + primerAp + ", segundoAp=" + segundoAp + ", sexo=" + sexo + ", desnutricion=" + desnutricion + ", sobrepeso=" + sobrepeso + ", alergias=" + alergias + ", obesidad=" + obesidad + ", diabetes=" + diabetes + ", otras=" + otras + '}';
+        return "Datos{" + "cve=" + cve + ", nom=" + nom + ", primerAp=" + primerAp + ", segundoAp=" + segundoAp + ", sexo=" + sexo + ", desnutricion=" + desnutricion + ", sobrepeso=" + sobrepeso + ", alergias=" + alergias + ", obesidad=" + obesidad + ", diabetes=" + diabetes + ", otras=" + otras;
     }
     
     

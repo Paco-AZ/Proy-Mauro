@@ -14,8 +14,9 @@ public class Main
     public static void main(String[] args)
     {
         Datos datos[] = null;
-        datos=Controlador.altaAlumno(datos, null, "12345", "Jose", "Azteca", "Otomi", 'h', true, true, true, true, true, "Deficiencia renal", 4, 2);
+        datos=Controlador.altaPersonal(datos, null,'c', "12345", "Jose", "Azteca", "Otomi", 'h', true, true, true, true, true, "Deficiencia renal");
         System.out.println(datos[0].toString());
-
+        datos=Controlador.modificacionesP(null, datos, 'm', "12345",'m', true, true, true, true, true, "Viruela");
+        System.out.println(datos[0].toString());
     }
 }

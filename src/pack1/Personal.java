@@ -43,7 +43,7 @@ public class Personal extends Datos
     @Override
     public String toString()
     {
-        return "Personal{" + "estatus=" + estatus + '}';
+        return super.toString()+ " estatus=" + estatus + '}';
     }
     
 }
