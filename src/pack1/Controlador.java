@@ -52,7 +52,7 @@ public class Controlador
      * @param cve Es el numero de cuenta del paciente
      * @return
      */
-    private static HistorialClinico[][] insertaF(Datos[] array, HistorialClinico matriz[][],HistorialClinico hc, int pos, JFrame jf, String cve)
+    private static HistorialClinico[][] insertaF(Datos[] array, HistorialClinico matriz[][], HistorialClinico hc, int pos, JFrame jf, String cve)
     {
         if (matriz == null)
         {
@@ -79,7 +79,7 @@ public class Controlador
 
                 } else
                 {
-                    
+
                     nvo[i] = new HistorialClinico[matriz[i].length];
                     System.arraycopy(matriz[i], 0, nvo[i], 0, matriz[i].length);
                 }
@@ -215,10 +215,11 @@ public class Controlador
         }
         return s;
     }
+
     public String tC(char b)
     {
         String s = "";
-        if (b=='h')
+        if (b == 'h')
         {
             s += "Hombre";
         } else
@@ -234,45 +235,46 @@ public class Controlador
         switch (b)
         {
             case 1:
-                s+="Ingenieria en Software";
+                s += "Ingenieria en Software";
                 break;
             case 2:
-                s+="Ingenieria en Plasticos";
+                s += "Ingenieria en Plasticos";
                 break;
             case 3:
-                s+="Ingenieria en Mecanica";
+                s += "Ingenieria en Mecanica";
                 break;
             case 4:
-                s+="Ingenieria en Computacion";
+                s += "Ingenieria en Computacion";
                 break;
             case 5:
-                s+="Licenciatura Proteccion ciudadana";
+                s += "Licenciatura Proteccion ciudadana";
                 break;
             default:
-                s+="No existe esa carrera";
+                s += "No existe esa carrera";
                 throw new AssertionError();
         }
         return s;
     }
+
     public String iTF(int b)
     {
         String s = "";
         switch (b)
         {
             case 1:
-                s+="Solo";
+                s += "Solo";
                 break;
             case 2:
-                s+="Con mi papá";
+                s += "Con mi papá";
                 break;
             case 3:
-                s+="Con mi mamá";
+                s += "Con mi mamá";
                 break;
             case 4:
-                s+="Con mi mamá y papá";
+                s += "Con mi mamá y papá";
                 break;
             case 5:
-                s+="Otros";
+                s += "Otros";
                 break;
             default:
                 throw new AssertionError();
@@ -289,7 +291,7 @@ public class Controlador
 
     public Object[][] tablaA(Datos arr[])
     {
-        int z=0;
+        int z = 0;
         for (int i = 0; i < arr.length; i++)
         {
             if (arr[i] instanceof Alumnos)
@@ -297,32 +299,33 @@ public class Controlador
                 z++;
             }
         }
-        Object obj[][]=new Object[z][13];
-        for (int i = 0,j=0; i < arr.length; i++)
+        Object obj[][] = new Object[z][13];
+        for (int i = 0, j = 0; i < arr.length; i++)
         {
             if (arr[i] instanceof Alumnos)
             {
-                obj[i][0]=arr[i].getCve();
-                obj[i][1]=arr[i].getNom();
-                obj[i][2]=arr[i].getPrimerAp();
-                obj[i][3]=arr[i].getSegundoAp();
-                obj[i][4]=tC(arr[i].getSexo());
-                obj[i][5]=tF(arr[i].isDesnutricion());
-                obj[i][6]=tF(arr[i].isSobrepeso());
-                obj[i][7]=tF(arr[i].isAlergias());
-                obj[i][8]=tF(arr[i].isObesidad());
-                obj[i][9]=tF(arr[i].isDiabetes());
-                obj[i][10]=arr[i].getOtras();
-                obj[i][11]=iTC(((Alumnos)arr[i]).carrera);
-                obj[i][12]=iTF(((Alumnos)arr[i]).viveCon);
+                obj[i][0] = arr[i].getCve();
+                obj[i][1] = arr[i].getNom();
+                obj[i][2] = arr[i].getPrimerAp();
+                obj[i][3] = arr[i].getSegundoAp();
+                obj[i][4] = tC(arr[i].getSexo());
+                obj[i][5] = tF(arr[i].isDesnutricion());
+                obj[i][6] = tF(arr[i].isSobrepeso());
+                obj[i][7] = tF(arr[i].isAlergias());
+                obj[i][8] = tF(arr[i].isObesidad());
+                obj[i][9] = tF(arr[i].isDiabetes());
+                obj[i][10] = arr[i].getOtras();
+                obj[i][11] = iTC(((Alumnos) arr[i]).carrera);
+                obj[i][12] = iTF(((Alumnos) arr[i]).viveCon);
                 j++;
             }
         }
         return obj;
     }
+
     public Object[][] tablaP(Datos arr[])
     {
-        int z=0;
+        int z = 0;
         for (int i = 0; i < arr.length; i++)
         {
             if (arr[i] instanceof Personal)
@@ -330,26 +333,67 @@ public class Controlador
                 z++;
             }
         }
-        Object obj[][]=new Object[z][12];
-        for (int i = 0,j=0; i < arr.length; i++)
+        Object obj[][] = new Object[z][12];
+        for (int i = 0, j = 0; i < arr.length; i++)
         {
             if (arr[i] instanceof Personal)
             {
-                obj[i][0]=arr[i].getCve();
-                obj[i][1]=arr[i].getNom();
-                obj[i][2]=arr[i].getPrimerAp();
-                obj[i][3]=arr[i].getSegundoAp();
-                obj[i][4]=tC(arr[i].getSexo());
-                obj[i][5]=tF(arr[i].isDesnutricion());
-                obj[i][6]=tF(arr[i].isSobrepeso());
-                obj[i][7]=tF(arr[i].isAlergias());
-                obj[i][8]=tF(arr[i].isObesidad());
-                obj[i][9]=tF(arr[i].isDiabetes());
-                obj[i][10]=arr[i].getOtras();
-                obj[i][11]=iTC(((Personal)arr[i]).getEstatus());
+                obj[i][0] = arr[i].getCve();
+                obj[i][1] = arr[i].getNom();
+                obj[i][2] = arr[i].getPrimerAp();
+                obj[i][3] = arr[i].getSegundoAp();
+                obj[i][4] = tC(arr[i].getSexo());
+                obj[i][5] = tF(arr[i].isDesnutricion());
+                obj[i][6] = tF(arr[i].isSobrepeso());
+                obj[i][7] = tF(arr[i].isAlergias());
+                obj[i][8] = tF(arr[i].isObesidad());
+                obj[i][9] = tF(arr[i].isDiabetes());
+                obj[i][10] = arr[i].getOtras();
+                obj[i][11] = iTC(((Personal) arr[i]).getEstatus());
                 j++;
             }
         }
         return obj;
+    }
+
+    public String reportes(Datos[] array, HistorialClinico[][] matriz, int opc)
+    {
+        String s="";
+        switch (opc)
+        {
+            case 1:
+                for (int i = 0; i < array.length; i++)
+                {
+                    if (array[i].getSexo()=='h')
+                    {
+                        s+=array[i].getNom()+" Ha tenido "+(String.valueOf(matriz[i].length))+" consultas"+"\n";
+                    }
+                }
+                break;
+            case 2:
+                for (int i = 0; i < array.length; i++)
+                {
+                    if (array[i].getSexo()=='m')
+                    {
+                        s+=array[i].getNom()+" Ha tenido "+(String.valueOf(matriz[i].length))+" consultas"+"\n";
+                    }
+                }
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+
+                break;
+            case 6:
+
+                break;
+            default:
+                throw new AssertionError();
+        }
+        return s;
     }
 }
