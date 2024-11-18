@@ -1,2 +1,9 @@
-/build/
 /nbproject/private/
+/build/
+/dist/
+/jar/CtrlInterfaz/build/
+/jar/CtrlInterfaz/dist/
+/jar/CtrlInterfaz/nbproject/private/
+/jar/CtrlInterfaz/CtrlInterfaz/build/
+/jar/CtrlInterfaz/CtrlInterfaz/dist/
+/jar/CtrlInterfaz/CtrlInterfaz/nbproject/private/

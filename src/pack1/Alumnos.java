@@ -10,8 +10,8 @@ package pack1;
  */
 public class Alumnos extends Datos
 {
-    int viveCon;
-    int carrera;
+    public int viveCon;
+    public int carrera;
 
     public Alumnos()
     {

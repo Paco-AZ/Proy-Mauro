@@ -10,7 +10,7 @@ package pack1;
  */
 public class Personal extends Datos
 {
-    private char estatus;
+    public char estatus;
 
     
     

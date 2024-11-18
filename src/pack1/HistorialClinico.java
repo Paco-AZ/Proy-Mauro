@@ -4,25 +4,26 @@
  */
 package pack1;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author HP
  */
-public class HistorialClinico
+public class HistorialClinico implements Serializable
 {
     private String padecimientoAct;
     private String antecedentesPer;
     private String medicamento;
     private String planTratamiento;
-    private Date Fecha;
+    private String Fecha;
 
     public HistorialClinico()
     {
     }
 
-    public HistorialClinico(String padecimientoAct, String antecedentesPer, String medicamento, String planTratamiento, Date Fecha)
+    public HistorialClinico(String padecimientoAct, String antecedentesPer, String medicamento, String planTratamiento, String Fecha)
     {
         this.padecimientoAct = padecimientoAct;
         this.antecedentesPer = antecedentesPer;
@@ -98,7 +99,7 @@ public class HistorialClinico
     /**
      * @return the Fecha
      */
-    public Date getFecha()
+    public String getFecha()
     {
         return Fecha;
     }
@@ -106,7 +107,7 @@ public class HistorialClinico
     /**
      * @param Fecha the Fecha to set
      */
-    public void setFecha(Date Fecha)
+    public void setFecha(String Fecha)
     {
         this.Fecha = Fecha;
     }

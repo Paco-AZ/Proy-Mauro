@@ -4,10 +4,16 @@
  */
 package pack1;
 
+import BD.AccessDBConnection;
 import cjb.ci.Mensajes;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.function.ObjDoubleConsumer;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+import poo.Principal;
 
 /**
  *
@@ -42,72 +48,64 @@ public class Controlador
     }
 
     /**
+     * Metodo para insertar un nuevo elemento a un arreglo de tipo dato
      *
-     * @param array Es el arreglo de datos para indicar el numero de personas
-     * que hay
-     * @param matriz Es donde se guardaran los datos
-     * @param hc Son los datos que se estan ingresando de la consulta
-     * @param pos Indica en que persona se estan ingresando los datos
-     * @param jf
-     * @param cve Es el numero de cuenta del paciente
-     * @return
+     * @param array recive el arreglo donde se va a incertar el dato
+     * @param d el dato que se desea insertar
+     * @return retorna la direccion de memoria del nuevo arreglo con el dato
+     * insertado
      */
-    private static HistorialClinico[][] insertaF(Datos[] array, HistorialClinico matriz[][], HistorialClinico hc, int pos, JFrame jf, String cve)
+    public static Datos[] elimina(Datos array[], int pos)
     {
-        if (matriz == null)
+        if (array.length == 1)
         {
-            matriz = new HistorialClinico[array.length][1];
-            matriz[pos][0] = hc;
+            array = null;
+
         } else
         {
-            HistorialClinico nvo[][] = new HistorialClinico[array.length][];
-            int h = validaMatricula(array, cve, jf);
-            for (int i = 0; i < array.length; i++)
+            Datos nvo[] = new Datos[array.length - 1];
+            for (int i = 0, j = 0; i < array.length; i++)
             {
-                if (i == pos)
+                if (i != pos)
                 {
-                    if (matriz[i][0] == null)
-                    {
-                        nvo[i] = new HistorialClinico[1];
-                        nvo[pos][0] = hc;
-                    } else
-                    {
-                        nvo[i] = new HistorialClinico[matriz[i].length + 1];
-                        System.arraycopy(matriz[i], 0, nvo[i], 0, matriz[i].length);
-                        nvo[pos][matriz[i].length] = hc;
-                    }
-
-                } else
-                {
-
-                    nvo[i] = new HistorialClinico[matriz[i].length];
-                    System.arraycopy(matriz[i], 0, nvo[i], 0, matriz[i].length);
+                    nvo[j++] = array[i];
                 }
             }
-            matriz = nvo;
+            array = nvo;
         }
-
-        return matriz;
+        return array;
     }
 
-    /**
-     * Metodo Para Ingresar una consulta en un paciente
-     *
-     * @param array es el arreglo de datos que se esta ocupando
-     * @param matriz Sera donde se van a guardar los datos de las consultas
-     * @param cve Es el numero de cuenta del paciente
-     * @param jf
-     * @param pA Son los padecimientos que sufre el paciente
-     * @param aP Son los padecimientos previos del paciente
-     * @param m Seran los medicamentos recomendados
-     * @param t Es el tratamiento que se recomendo
-     * @param Fecha Pues es la fecha en que se realiza la consulta
-     */
-    public static void consulta(Datos array[], HistorialClinico matriz[][], String cve, JFrame jf, String pA, String aP, String m, String t, Date Fecha)
+    public static HistorialClinico[][] eliminaM(Datos array[], int pos, HistorialClinico matriz[][])
     {
-        int pos = validaMatricula(array, cve, jf);
-        HistorialClinico hc = new HistorialClinico(pA, aP, m, t, Fecha);
-        insertaF(array, matriz, hc, pos, jf, cve);
+        if (array.length == 1)
+        {
+            matriz = null;
+
+        } else
+        {
+
+            HistorialClinico nvoM[][] = new HistorialClinico[array.length - 1][];
+            for (int i = 0, j = 0; i < array.length; i++)
+            {
+                if (i != pos)
+                {
+                    if (matriz[i] != null)
+                    {
+                        for (int k = 0; k < matriz[i].length; k++)
+                        {
+
+                            nuevaConsulta(nvoM, matriz[i][k], j);
+
+                        }
+                    }
+                    j++;
+                }
+            }
+            matriz = null;
+            matriz = nvoM;
+        }
+        return matriz;
     }
 
     private static Datos[] reutilizar(Datos array[], Datos d, int pos, JFrame jf)
@@ -124,6 +122,7 @@ public class Controlador
     }
 
     /**
+     * Metodo para obtener el nombre completos desde el cve
      *
      * @param array el arreglo del cual se van a comparar las matriculas
      * @param cve la clave que va a ser validada
@@ -131,76 +130,36 @@ public class Controlador
      * @return retorna true si la matricula es valida, y false si no lo es (ya
      * existe dentro del arreglo)
      */
-    private static int validaMatricula(Datos array[], String cve, JFrame jf)
+    public static Object[] ObtenerNC(String cve, JFrame jf)
     {
         int j;
-        if (array != null)
+        String url = "jdbc:ucanaccess://BD\\Proyecto2P.accdb";
+
+        try (Connection conn = DriverManager.getConnection(url))
         {
-            for (int i = 0; i < array.length; i++)
-            {
-                if (cve.equals(array[i].getCve()))
-                {
 
-                    return i;
-                }
-            }
+            
+            return AccessDBConnection.obtenerCVE(conn, cve, jf, (Principal.tipo == 1 ? "A" : "P"));
+
+        } catch (SQLException e)
+        {
+            System.out.println("Clave no encontrada");
+            return null;
         }
-
-        return -1;
     }
-
-    public static Datos[] altaAlumno(Datos array[], JFrame jf, String cve, String nom, String pApellido, String sApellido, char sexo, boolean desnut, boolean sobrepeso, boolean alergias, boolean obecidad, boolean diabetes, String otras, int viveCon, int carrera)
+    
+    public static Object[] ObtenerTD(String cve, JFrame jf)
     {
-        if (validaMatricula(array, cve, jf) == -1)
-        {
-            Datos nvoA = new Alumnos(viveCon, carrera, cve, nom, pApellido, sApellido, sexo, desnut, sobrepeso, alergias, obecidad, diabetes, otras);
-            array = inserta(array, nvoA);
-        } else
-        {
-            Mensajes.error(jf, "Error la matricula Ya EXISTE");
-        }
-        return array;
-    }
+        int j;
+        String url = "jdbc:ucanaccess://BD\\Proyecto2P.accdb";
 
-    public static Datos[] altaPersonal(Datos array[], JFrame jf, char estatus, String cve, String nom, String pApellido, String sApellido, char sexo, boolean desnut, boolean sobrepeso, boolean alergias, boolean obecidad, boolean diabetes, String otras)
-    {
-        if (validaMatricula(array, cve, jf) == -1)
+        try (Connection conn = DriverManager.getConnection(url))
         {
-            Datos nvoA = new Personal(estatus, cve, nom, pApellido, sApellido, sexo, desnut, sobrepeso, alergias, obecidad, diabetes, otras);
-            array = inserta(array, nvoA);
-        } else
+            return AccessDBConnection.obtenerTD(conn, cve, jf, (Principal.tipo == 1 ? "A" : "P"));
+        } catch (SQLException e)
         {
-            Mensajes.error(jf, "Error la matricula Ya EXISTE");
+            return null;
         }
-        return array;
-    }
-
-    public static Datos[] modificacionesP(JFrame jf, Datos array[], char estatus, String cve, char sexo, boolean desnut, boolean sobrepeso, boolean alergias, boolean obecidad, boolean diabetes, String otras)
-    {
-        int pos = validaMatricula(array, cve, jf);
-        if (validaMatricula(array, cve, jf) != -1 && array[pos] instanceof Personal)
-        {
-            Datos nvoA = new Personal(estatus, array[0].getCve(), array[0].getNom(), array[0].getPrimerAp(), array[0].getSegundoAp(), sexo, desnut, sobrepeso, alergias, obecidad, diabetes, otras);
-            array = reutilizar(array, nvoA, pos, jf);
-        } else
-        {
-            Mensajes.error(jf, "La matricula no existe o pertenece a otra categoria");
-        }
-        return array;
-    }
-
-    public static Datos[] modificacionesA(JFrame jf, Datos array[], int viveC, int carrera, String cve, char sexo, boolean desnut, boolean sobrepeso, boolean alergias, boolean obecidad, boolean diabetes, String otras)
-    {
-        int pos = validaMatricula(array, cve, jf);
-        if (validaMatricula(array, cve, jf) != -1 && array[pos] instanceof Alumnos)
-        {
-            Datos nvoA = new Alumnos(viveC, carrera, array[0].getCve(), array[0].getNom(), array[0].getPrimerAp(), array[0].getSegundoAp(), sexo, desnut, sobrepeso, alergias, obecidad, diabetes, otras);
-            array = reutilizar(array, nvoA, pos, jf);
-        } else
-        {
-            Mensajes.error(jf, "La matricula no existe o pertenece a otra categoria");
-        }
-        return array;
     }
 
     public String tF(boolean b)
@@ -358,24 +317,24 @@ public class Controlador
 
     public String reportes(Datos[] array, HistorialClinico[][] matriz, int opc)
     {
-        String s="";
+        String s = "";
         switch (opc)
         {
             case 1:
                 for (int i = 0; i < array.length; i++)
                 {
-                    if (array[i].getSexo()=='h')
+                    if (array[i].getSexo() == 'h')
                     {
-                        s+=array[i].getNom()+" Ha tenido "+(String.valueOf(matriz[i].length))+" consultas"+"\n";
+                        s += array[i].getNom() + " Ha tenido " + (String.valueOf(matriz[i].length)) + " consultas" + "\n";
                     }
                 }
                 break;
             case 2:
                 for (int i = 0; i < array.length; i++)
                 {
-                    if (array[i].getSexo()=='m')
+                    if (array[i].getSexo() == 'm')
                     {
-                        s+=array[i].getNom()+" Ha tenido "+(String.valueOf(matriz[i].length))+" consultas"+"\n";
+                        s += array[i].getNom() + " Ha tenido " + (String.valueOf(matriz[i].length)) + " consultas" + "\n";
                     }
                 }
                 break;
@@ -395,5 +354,75 @@ public class Controlador
                 throw new AssertionError();
         }
         return s;
+    }
+
+    public static boolean validarMayuscula(String texto)
+    {
+        return texto != null && !texto.isEmpty() && Character.isUpperCase(texto.charAt(0));
+    }
+
+    public static String capitalizarPrimerasLetras(String input)
+    {
+        // Dividir la cadena en palabras usando el espacio como delimitador
+        String[] palabras = input.split(" ");
+        StringBuilder resultado = new StringBuilder();
+
+        // Iterar sobre cada palabra y capitalizar la primera letra
+        for (String palabra : palabras)
+        {
+            if (!palabra.isEmpty())
+            {
+                char primeraLetra = Character.toUpperCase(palabra.charAt(0));
+                String restoPalabra = palabra.substring(1);
+                resultado.append(primeraLetra).append(restoPalabra).append(" ");
+            }
+        }
+
+        // Eliminar el espacio adicional al final y devolver el resultado
+        return resultado.toString().trim();
+    }
+
+    /**
+     * Metodo que aumenta un renglon a la matriz de historial clinico
+     *
+     * @param hC la matriz a la que se le va a agregar el renglon
+     * @return la matriz con un renglon mas
+     */
+    public static HistorialClinico[][] nuevoHistorial(HistorialClinico[][] hC)
+    {
+        if (hC == null)
+        {
+            hC = new HistorialClinico[1][];
+        } else
+        {
+            HistorialClinico nvo[][] = new HistorialClinico[hC.length + 1][];
+            System.arraycopy(hC, 0, nvo, 0, hC.length);
+            hC = nvo;
+        }
+        return hC;
+    }
+
+    /**
+     * metodo que agrega una nueva columna a la matriz de historial clinico en
+     * un renglon dado e inserta la consulta en la columna creada en ese renglon
+     *
+     * @param hC la matriz a la que se le va a agregar una columna
+     * @param dato el dato que se va a insertar
+     * @param pos la posicion donde se va a crear la nueva columna
+     * @return la matriz con la nueva columna y el dato incertado
+     */
+    public static HistorialClinico[][] nuevaConsulta(HistorialClinico[][] hC, HistorialClinico dato, int pos)
+    {
+        if (hC[pos] == null)
+        {
+            hC[pos] = new HistorialClinico[1];
+        } else
+        {
+            HistorialClinico nvo[] = new HistorialClinico[hC[pos].length + 1];
+            System.arraycopy(hC[pos], 0, nvo, 0, hC[pos].length);
+            hC[pos] = nvo;
+        }
+        hC[pos][hC[pos].length - 1] = dato;
+        return hC;
     }
 }

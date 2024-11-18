@@ -4,11 +4,13 @@
  */
 package pack1;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HP
  */
-public class Datos
+public class Datos implements Serializable
 {
     private String cve;
     private String nom;
@@ -220,7 +222,7 @@ public class Datos
     @Override
     public String toString()
     {
-        return "Datos{" + "cve=" + cve + ", nom=" + nom + ", primerAp=" + primerAp + ", segundoAp=" + segundoAp + ", sexo=" + sexo + ", desnutricion=" + desnutricion + ", sobrepeso=" + sobrepeso + ", alergias=" + alergias + ", obesidad=" + obesidad + ", diabetes=" + diabetes + ", otras=" + otras;
+        return "Datos{" + "cve=" + cve + ", nom=" + nom + ", primerAp=" + primerAp + ", segundoAp=" + segundoAp + ", sexo=" + getSexo() + ", desnutricion=" + isDesnutricion() + ", sobrepeso=" + isSobrepeso() + ", alergias=" + isAlergias() + ", obesidad=" + isObesidad() + ", diabetes=" + isDiabetes() + ", otras=" + otras;
     }
     
     
