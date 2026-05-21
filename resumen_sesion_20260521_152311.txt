@@ -1,0 +1,7 @@
+=== RESUMEN DE CIERRE DE SESIÓN ===
+Fecha: 21/05/2026 15:23:11
+Altas realizadas: 1
+Bajas realizadas: 0
+Cambios realizados: 0
+------------------------------------
+Estado: Conexión cerrada correctamente.
